@@ -95,7 +95,39 @@ export const createTask = async (req, res, next) => {
     if (error instanceof AppError) {
       throw error
     }
-    throw new AppError('Failed to create task', 500)
+
+    // Log the actual database error for debugging
+    console.error('Database error in createTask:', {
+      message: error.message,
+      code: error.code,
+      detail: error.detail,
+      hint: error.hint,
+      stack: error.stack
+    })
+
+    // Specific error messages based on PostgreSQL error codes
+    if (error.code === '42P01') {
+      throw new AppError(
+        'Database table does not exist. Please ensure the database schema is properly initialized.',
+        500
+      )
+    }
+
+    if (error.code === '28000') {
+      throw new AppError(
+        'Database authentication failed. Please check your database credentials.',
+        500
+      )
+    }
+
+    if (error.code === 'ECONNREFUSED') {
+      throw new AppError(
+        'Cannot connect to database. Please check your database connection settings.',
+        500
+      )
+    }
+
+    throw new AppError(`Failed to create task: ${error.message}`, 500)
   }
 }
 
