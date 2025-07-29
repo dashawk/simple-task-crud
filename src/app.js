@@ -5,6 +5,7 @@ import { appMiddlewares } from './middleware/appMiddlewares'
 import registerRoutes from './utils/registerRoutes'
 import errorMiddleware from './middleware/errorMiddleware'
 import { env } from './utils/env'
+import { createDatabaseIfNotExists } from './config/database'
 
 async function createApp() {
   const port = process.env.APP_PORT || 3000
@@ -39,13 +40,22 @@ async function createApp() {
   return { app, port }
 }
 
-try {
-  void createApp().then(({ app, port }) => {
+async function startServer() {
+  try {
+    // Initialize database first
+    await createDatabaseIfNotExists()
+
+    // Create and start the app
+    const { app, port } = await createApp()
+
     app.listen(port, () => {
       console.log(`Server running in http://localhost:${port}`)
     })
-  })
-} catch (error) {
-  console.error('ERROR:', error.message)
-  process.exit(1)
+  } catch (error) {
+    console.error('ERROR:', error.message)
+    process.exit(1)
+  }
 }
+
+// Start the server
+startServer()
