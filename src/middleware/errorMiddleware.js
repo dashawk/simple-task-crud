@@ -28,14 +28,14 @@ const errorMiddleware = (err, req, res, next) => {
       if (relevantLine) {
         const match = relevantLine.match(/([^\/\\]+\.js):(\d+):(\d+)/)
         if (match) {
-          errorResponse.filename = match[1]
-          errorResponse.lineNumber = parseInt(match[2])
+          // errorResponse.filename = match[1]
+          // errorResponse.lineNumber = parseInt(match[2])
         }
       }
     }
 
     // Add the full stack trace
-    errorResponse.stack = err.stack
+    // errorResponse.stack = err.stack
   }
 
   res.status(statusCode).json(errorResponse)

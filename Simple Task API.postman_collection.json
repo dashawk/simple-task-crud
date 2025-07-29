@@ -1,0 +1,192 @@
+{
+  "info": {
+    "_postman_id": "28e46238-8f49-4e6b-8dc3-d7a3ea15e9b9",
+    "name": "Simple Task API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "32757410"
+  },
+  "item": [
+    {
+      "name": "Main",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"completed\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{host}}/api/v1/tasks",
+          "host": ["{{host}}"],
+          "path": ["api", "v1", "tasks"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Task",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Create New Task",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"Task 2\",\r\n    \"description\": \"This is the task 2\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{host}}/api/v1/tasks",
+          "host": ["{{host}}"],
+          "path": ["api", "v1", "tasks"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Task",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"completed\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{host}}/api/v1/tasks/{{taskID}}",
+          "host": ["{{host}}"],
+          "path": ["api", "v1", "tasks", "{{taskID}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Task",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"completed\": true\r\n}"
+        },
+        "url": {
+          "raw": "{{host}}/api/v1/tasks/{{taskID}}",
+          "host": ["{{host}}"],
+          "path": ["api", "v1", "tasks", "{{taskID}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Task",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"completed\": true\r\n}"
+        },
+        "url": {
+          "raw": "{{host}}/api/v1/tasks/{{taskID}}",
+          "host": ["{{host}}"],
+          "path": ["api", "v1", "tasks", "{{taskID}}"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "host",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "taskID",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "environment": [
+    {
+      "id": "local-env",
+      "name": "Local Environment",
+      "values": [
+        {
+          "key": "host",
+          "value": "http://localhost:3000",
+          "type": "default",
+          "enabled": true
+        },
+        {
+          "key": "taskID",
+          "value": "",
+          "type": "default",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "id": "vercel-env",
+      "name": "Vercel Environment",
+      "values": [
+        {
+          "key": "host",
+          "value": "https://simple-task-crud-sigma.vercel.app",
+          "type": "default",
+          "enabled": true
+        },
+        {
+          "key": "taskID",
+          "value": "",
+          "type": "default",
+          "enabled": true
+        }
+      ]
+    }
+  ]
+}

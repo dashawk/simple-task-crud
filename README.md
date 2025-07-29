@@ -277,3 +277,102 @@ try {
   // Rollback was handled automatically
 }
 ```
+
+## Deployment to Vercel
+
+This application is configured for deployment to Vercel. Follow these steps:
+
+### Prerequisites
+
+1. **Database Setup**: You'll need a production PostgreSQL database. Options
+   include:
+   - [Vercel Postgres](https://vercel.com/docs/storage/vercel-postgres)
+   - [Supabase](https://supabase.com/)
+   - [Neon](https://neon.tech/)
+   - [Railway](https://railway.app/)
+   - [PlanetScale](https://planetscale.com/) (MySQL alternative)
+
+### Deployment Steps
+
+1. **Install Vercel CLI** (if not already installed):
+
+   ```bash
+   npm install -g vercel
+   ```
+
+2. **Login to Vercel**:
+
+   ```bash
+   vercel login
+   ```
+
+3. **Deploy to Vercel**:
+
+   ```bash
+   vercel
+   ```
+
+4. **Set Environment Variables** in Vercel Dashboard:
+
+   - Go to your project in Vercel Dashboard
+   - Navigate to Settings → Environment Variables
+   - Add the following variables:
+
+   ```env
+   NODE_ENV=production
+   API_VERSION=v1
+   APP_NAME=tasks-api
+   DATABASE_URL=your_production_database_url_here
+   ```
+
+   **Important**: Make sure your `DATABASE_URL` points to your production
+   database.
+
+### Vercel Configuration
+
+The project includes:
+
+- `vercel.json` - Vercel deployment configuration
+- `api/index.js` - Serverless function entry point
+- `.vercelignore` - Files to exclude from deployment
+
+### Database Considerations
+
+- The application automatically handles SSL connections for production databases
+- Make sure your production database allows connections from Vercel's IP ranges
+- Consider using connection pooling services like PgBouncer for better
+  performance
+
+### Environment Variables for Production
+
+```env
+NODE_ENV=production
+API_VERSION=v1
+APP_NAME=tasks-api
+DATABASE_URL=postgres://username:password@host:port/database?sslmode=require
+```
+
+### Testing the Deployment
+
+After deployment, test your API endpoints:
+
+- `GET https://your-app.vercel.app/` - Should return API information
+- `GET https://your-app.vercel.app/api/v1/tasks` - Should return tasks (empty
+  array initially)
+
+### Troubleshooting
+
+1. **Database Connection Issues**:
+
+   - Verify your `DATABASE_URL` is correct
+   - Ensure your database allows external connections
+   - Check that SSL is properly configured
+
+2. **Function Timeout**:
+
+   - Vercel functions have a 10-second timeout on Hobby plan
+   - Consider upgrading to Pro plan for longer timeouts
+
+3. **Cold Starts**:
+   - First request after inactivity may be slower
+   - This is normal for serverless functions

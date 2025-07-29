@@ -3,15 +3,20 @@ import { env } from '../utils/env'
 
 // --- Base connection config ---
 const connectionString = env('DATABASE_URL')
+const isProduction = env('NODE_ENV') === 'production'
+
 const baseConfig = connectionString
-  ? { connectionString, ssl: false }
+  ? {
+      connectionString,
+      ssl: isProduction ? { rejectUnauthorized: false } : false
+    }
   : {
       host: env('DB_HOST', 'localhost'),
       port: Number(env('DB_PORT', '5432')),
       user: env('DB_USER', 'postgres'),
       password: env('DB_PASSWORD', ''),
       database: env('DB_NAME', 'tasks_db'),
-      ssl: false
+      ssl: isProduction ? { rejectUnauthorized: false } : false
     }
 
 // --- Pool tuning ---
@@ -65,7 +70,10 @@ export async function createDatabaseIfNotExists() {
   if (!isValidIdentifier(dbName))
     throw new Error(`Invalid database name: ${dbName}`)
 
-  const admin = new Pool({ connectionString: adminUrl, ssl: false })
+  const admin = new Pool({
+    connectionString: adminUrl,
+    ssl: isProduction ? { rejectUnauthorized: false } : false
+  })
   try {
     await admin.query(`CREATE DATABASE "${dbName}"`)
     console.log(`Created database "${dbName}"`)
